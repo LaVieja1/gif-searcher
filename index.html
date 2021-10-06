@@ -17,17 +17,15 @@
 
         let s = 'cats';
 
-        function loadImg() {
-            fetch(`https://api.giphy.com/v1/gifs/translate?api_key=33Ny2IXp2gAZ8HSlJNhMX5dQS9BIB77p&s=${s}`, {mode: 'cors'})
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(response) {
-                img.src = response.data.images.original.url;
-            })
-            .catch(function(error) {
-                document.createElement('p').textContent = 'Cannot find GIFs'
-            })
+        async function loadImg() {
+            try {
+                const response = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=33Ny2IXp2gAZ8HSlJNhMX5dQS9BIB77p&s=${s}`, {mode: 'cors'})
+                const gifData = await response.json();
+                img.src = gifData.data.images.original.url;
+            } catch (error) {
+                const error = document.createElement('p');
+                error.textContent = 'Cannot find GIFs';
+            }
         };
 
         const button = document.querySelector('button');
