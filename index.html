@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="#"><br>
+    <button>Click me!</button><br>
+    <label for="searchBox">Search GIFS</label>
+    <input type="search" id="searchBox" name="searchBox">
+    <input type="submit" value="Search">
+    <script>
+        const img = document.querySelector('img');
+
+        let s = 'cats';
+
+        function loadImg() {
+            fetch(`https://api.giphy.com/v1/gifs/translate?api_key=33Ny2IXp2gAZ8HSlJNhMX5dQS9BIB77p&s=${s}`, {mode: 'cors'})
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(response) {
+                img.src = response.data.images.original.url;
+            })
+            .catch(function(error) {
+                document.createElement('p').textContent = 'Cannot find GIFs'
+            })
+        };
+
+        const button = document.querySelector('button');
+        button.addEventListener('click', loadImg);
+
+        const searchInput = document.querySelector("input[type='search']");
+        const searchSubmit = document.querySelector("input[type='submit']");
+
+        searchSubmit.addEventListener('click', function() {
+            s = searchInput.value;
+            loadImg();
+        })
+
+        loadImg();
+    </script>
+</body>
+</html>
